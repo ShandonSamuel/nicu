@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infant Medical Report</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #5c2774, #335cc5, #637ffd); /* DeepViolet Gradient Background */
+            color: #fff; /* Text color */
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            grid-gap: 20px;
+            min-height: 100vh;
+        }
+
+        h1 {
+            font-size: 2em;
+            grid-column: span 2;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .graph {
+            height: 300px;
+            margin: 20px 0;
+        }
+
+        canvas {
+            background-color: #fff;
+        }
+
+        .top-left {
+            grid-column: 1;
+            grid-row: 1;
+        }
+
+        .top-right {
+            grid-column: 2;
+            grid-row: 1;
+        }
+
+        .bottom-left {
+            grid-column: 1;
+            grid-row: 2;
+        }
+
+        .bottom-right {
+            grid-column: 2;
+            grid-row: 2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Infant Medical Report</h1>
+    <div class="container top-left">
+        <p>Temperature (°C)</p>
+        <div class="graph">
+            <canvas id="temperatureChart"></canvas>
+        </div>
+    </div>
+    <div class="container top-right">
+        <p>Humidity (%)</p>
+        <div class="graph">
+            <canvas id="humidityChart"></canvas>
+        </div>
+    </div>
+    <div class="container bottom-left">
+        <p>Pulse Rate (bpm)</p>
+        <div class="graph">
+            <canvas id="pulseRateChart"></canvas>
+        </div>
+    </div>
+    <div class="container bottom-right">
+        <p>Oxygen Concentration (%)</p>
+        <div class="graph">
+            <canvas id="oxygenConcentrationChart"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Sample data (replace with your real data)
+        const timeLabels = ['oct1', 'oct2', 'oct3', 'oct4', 'oct5', 'oct6'];
+        const temperatureData = [36.5, 36.6, 36.7, 36.8, 36.9, 37.0];
+        const humidityData = [40, 45, 42, 38, 36, 40];
+        const pulseRateData = [120, 125, 118, 122, 130, 128];
+        const oxygenConcentrationData = [98, 97, 96, 97, 98, 99];
+
+        // Create the charts
+        const createChart = (canvasId, data, label, color) => {
+            const ctx = document.getElementById(canvasId).getContext('2d');
+            return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: timeLabels,
+                    datasets: [{
+                        label: label,
+                        data: data,
+                        borderColor: color,
+                        backgroundColor: color,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            grid: {
+                                color: '#fff'
+                            }
+                        },
+                        y: {
+                            grid: {
+                                color: '#fff'
+                            }
+                        }
+                    }
+                }
+            });
+        };
+
+        createChart('temperatureChart', temperatureData, 'Temperature (°C)', '#FF5733');
+        createChart('humidityChart', humidityData, 'Humidity (%)', '#33FFC7');
+        createChart('pulseRateChart', pulseRateData, 'Pulse Rate (bpm)', '#339CFF');
+        createChart('oxygenConcentrationChart', oxygenConcentrationData, 'Oxygen Concentration (%)', '#FF33FF');
+    </script>
+</body>
+</html>

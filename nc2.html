@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #5c2774, #335cc5, #637ffd); /* Gradient Background */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        #login-container {
+            background-color: #fff; /* White Background for the Login Container */
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2); /* Box Shadow for Container */
+            text-align: center;
+        }
+
+        #login-form {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        #login-form label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333; /* Dark Text Color */
+            font-weight: bold;
+        }
+
+        #login-form input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc; /* Light Gray Border */
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        #login-form button {
+            background-color: #335cc5; /* Button Color */
+            color: #fff; /* Button Text Color */
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #login-form button:hover {
+            background-color: #637ffd; /* Darker Color on Hover */
+        }
+    </style>
+</head>
+
+<body>
+    <div id="login-container">
+        <h2>Login</h2>
+        <form id="login-form" onsubmit="return validateForm()">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <script>
+        function validateForm() {
+            var username = document.getElementById('username').value;
+            var password = document.getElementById('password').value;
+
+            if (username.length > 4 && password.length > 4) {
+                // Replace the URL with the actual URL of the next page
+                window.location.href = 'n3.html';
+                return false; // Prevents the form from submitting
+            } else {
+                alert('Username or password is incorrect.');
+                return false; // Prevents the form from submitting
+            }
+        }
+    </script>
+</body>
+
+</html>

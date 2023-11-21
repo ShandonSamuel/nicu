@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NICU Monitoring</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to left, #5c2774, #335cc5, #637ffd);
+            color: #3ded97;
+            display: flex;
+            height: 100vh;
+            position: relative;
+        }
+
+        #container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        #values {
+            display: flex;
+            justify-content: space-between;
+            width: 50%;
+            margin-bottom: 20px;
+        }
+
+        #chart-container {
+            position: relative;
+            width: 200%;
+            left: 60%;
+            max-height: 80vh;
+        }
+
+        #chart {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        #report-button {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background-color: #335cc5;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container">
+        <div id="values">
+            <div>Humidity: <span id="humidityValue"></span></div>
+            <div>Temperature: <span id="temperatureValue"></span></div>
+            <div>SPO2 Level: <span id="spo2Value"></span></div>
+            <div>Heart Rate: <span id="heartRateValue"></span></div>
+        </div>
+        <div id="chart-container">
+            <canvas id="chart"></canvas>
+        </div>
+        <button id="report-button">Report</button>
+    </div>
+
+    <script>
+        // Function to generate random values within a specified range
+        function getRandomValue(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        // Function to update random values and the chart
+        function updateValuesAndChart() {
+            document.getElementById('humidityValue').innerText = getRandomValue(65, 75).toFixed(1);
+            document.getElementById('temperatureValue').innerText = getRandomValue(36, 40).toFixed(1);
+            document.getElementById('spo2Value').innerText = getRandomValue(95, 99).toFixed(1);
+            document.getElementById('heartRateValue').innerText = getRandomValue(120, 160).toFixed(1);
+
+            // Add data points to the chart
+            chart.data.labels.push(new Date().toLocaleTimeString());
+            chart.data.datasets[0].data.push(parseFloat(document.getElementById('humidityValue').innerText));
+            chart.data.datasets[1].data.push(parseFloat(document.getElementById('temperatureValue').innerText));
+            chart.data.datasets[2].data.push(parseFloat(document.getElementById('spo2Value').innerText));
+            chart.data.datasets[3].data.push(parseFloat(document.getElementById('heartRateValue').innerText));
+
+            // Remove oldest data points to maintain a fixed length
+            if (chart.data.labels.length > 10) {
+                chart.data.labels.shift();
+                chart.data.datasets[0].data.shift();
+                chart.data.datasets[1].data.shift();
+                chart.data.datasets[2].data.shift();
+                chart.data.datasets[3].data.shift();
+            }
+
+            // Update the chart
+            chart.update();
+        }
+
+        // Set up the initial chart configuration
+        var ctx = document.getElementById('chart').getContext('2d');
+        var chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Humidity',
+                    data: [],
+                    backgroundColor: 'transparent',
+                    borderColor: '#3ded97',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    lineTension: 0 // No curve
+                }, {
+                    label: 'Temperature',
+                    data: [],
+                    backgroundColor: 'transparent',
+                    borderColor: '#ffcc29',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    lineTension: 0 // No curve
+                }, {
+                    label: 'SPO2 Level',
+                    data: [],
+                    backgroundColor: 'transparent',
+                    borderColor: '#ff4d4d',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    lineTension: 0 // No curve
+                }, {
+                    label: 'Heart Rate',
+                    data: [],
+                    backgroundColor: 'transparent',
+                    borderColor: '#66ccff',
+                    borderWidth: 2,
+                    pointRadius: 0,
+                    pointHitRadius: 10,
+                    lineTension: 0 // No curve
+                }]
+            },
+            options: {
+                scales: {
+                    x: [{
+                        type: 'linear',
+                        position: 'bottom',
+                        ticks: {
+                            color: 'white' // Change x-axis label color to white
+                        }
+
+                    }],
+                    y: [{
+                        type: 'linear',
+                        position: 'left',
+                        min: 20,
+                        max: 90
+                    }]
+                }
+            }
+        });
+
+        // Update values and chart every 2 seconds
+        setInterval(updateValuesAndChart, 2000);
+
+        // Add event listener to the report button for redirection
+        document.getElementById('report-button').addEventListener('click', function () {
+            window.location.href = 'seco5.html'; // Replace 'next_page.html' with the actual URL of the next page
+        });
+    </script>
+</body>
+
+</html>
